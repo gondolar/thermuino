@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../ulc"
+		},
+		{
+			"path": "../llc"
 		}
 	],
 	"settings": {
@@ -67,7 +70,15 @@
 			"thread": "cpp",
 			"cinttypes": "cpp",
 			"typeinfo": "cpp",
-			"variant": "cpp"
+			"variant": "cpp",
+			"forward_list": "cpp",
+			"regex": "cpp",
+			"span": "cpp",
+			"xhash": "cpp",
+			"xstring": "cpp",
+			"xtree": "cpp",
+			"xutility": "cpp",
+			"bitset": "cpp"
 		}
 	}
 }

@@ -1,33 +1,51 @@
-#include "llc_log.h"
-#include "LittleFS.h"
+#include "llc_ptr_obj.h"
+#include "llc_array_pod.h"
+#include "llc_rxtx.h"
+#include <DallasTemperature.h>
+#include <LittleFS.h>
 
-//llc::error_t spiffs_init() {
-//    info_printf("Initializing SPIFFS");
-//    
-//    esp_vfs_spiffs_conf_t         conf  = {};
-//    conf.base_path              = "/spiffs";
-//    conf.partition_label        = {};
-//    conf.max_files              = 5;
-//    conf.format_if_mount_failed = true;
-//
-//    esp_err_t ret;  // Use settings defined above to initialize and mount SPIFFS filesystem. Note: esp_vfs_spiffs_register is an all-in-one convenience function.
-//    if_true_fef(ret = esp_vfs_spiffs_register(&conf), "Failed to initialize SPIFFS (%s)", esp_err_to_name(ret));
-//
-//    size_t total = 0, used = 0;
-//    if_true_fef(ret = esp_spiffs_info(NULL, &total, &used), "Failed to get SPIFFS partition information (%s)", esp_err_to_name(ret));
-//    info_printf("Partition size: total: %d, used: %d", total, used);
-//    return 0;
-//}
-//
+LLC_USING_TYPEINT();
+
+stxp    u0_c        WEMOS_PIN_LED_BUILTIN   = 2;
+stxp    llc::SRXTX  WEMOS_PIN_MAP_RXTX      = {3, 1};
+stxp    u0_c        WEMOS_PIN_MAP_DIGITAL[] = 
+    { 16
+    , 5
+    , 4
+    , 0
+    , 2
+    , 14
+    , 12
+    , 13
+    , 15
+    };
+
 struct STempApp {
-  
+    s0_t                                PinDS18B20      = WEMOS_PIN_MAP_DIGITAL[2];      // Change to your chosen pin
+    llc::pobj<OneWire          >        ApiOneWire;
+    llc::pobj<DallasTemperature>        ApiDS18B20;
+    llc::apod<u3_t>                     DS18B20Addresses;
 };
 
-void setup() { 
-    Serial.begin(115200);  
+STempApp g_App  = {};
+
+void setup() {
+    Serial.begin(115200);
     if_zero_e(LittleFS.begin());
-    //llc::error_t result;
-    //if_fail_e(result = spiffs_init());
+    g_App.ApiOneWire.create(g_App.PinDS18B20);
+    g_App.ApiDS18B20.create(g_App.ApiOneWire);
+    DallasTemperature   & ds18b20   = *g_App.ApiDS18B20;
+    ds18b20.begin();
+
+
+    info_printf("Scanning for DS18B20 sensors...");
+    DeviceAddress   addr;
+    int             count = 0;
+    while (g_App.ApiOneWire->search(addr)) {
+        g_App.DS18B20Addresses.push_back(*(u3_t*)addr);
+        info_printf("Sensor %u address: 0xull.", g_App.DS18B20Addresses.size(), g_App.DS18B20Addresses[g_App.DS18B20Addresses.size()-1]);
+    }
+    g_App.ApiOneWire->reset_search();
 }
 
 void loop() { 
