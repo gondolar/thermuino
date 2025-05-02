@@ -27,20 +27,18 @@ struct STempApp {
     llc::apod<u3_t>                     DS18B20Addresses;
 };
 
-STempApp g_App  = {};
+sttc    STempApp g_App  = {};
 
 void setup() {
     Serial.begin(115200);
     if_zero_e(LittleFS.begin());
-    g_App.ApiOneWire.create(g_App.PinDS18B20);
+    g_App.ApiOneWire.create((u0_t)g_App.PinDS18B20);
     g_App.ApiDS18B20.create(g_App.ApiOneWire);
     DallasTemperature   & ds18b20   = *g_App.ApiDS18B20;
     ds18b20.begin();
 
-
     info_printf("Scanning for DS18B20 sensors...");
     DeviceAddress   addr;
-    int             count = 0;
     while (g_App.ApiOneWire->search(addr)) {
         g_App.DS18B20Addresses.push_back(*(u3_t*)addr);
         info_printf("Sensor %u address: 0xull.", g_App.DS18B20Addresses.size(), g_App.DS18B20Addresses[g_App.DS18B20Addresses.size()-1]);
