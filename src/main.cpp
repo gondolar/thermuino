@@ -44,7 +44,14 @@ void setup() {
         info_printf("Sensor %u address: 0xull.", g_App.DS18B20Addresses.size(), g_App.DS18B20Addresses[g_App.DS18B20Addresses.size()-1]);
     }
     g_App.ApiOneWire->reset_search();
+    info_printf("DS18B20 sensors connected: %u.", g_App.DS18B20Addresses.size());
 }
 
 void loop() { 
+    DallasTemperature   & ds18b20   = *g_App.ApiDS18B20;
+    ds18b20.requestTemperatures();
+    for(u2_t i=0; i < g_App.DS18B20Addresses.size(); ++i) {
+        cnst    float   tempC   = ds18b20.getTempCByIndex(i);  // 
+        info_printf("DS18B20 measured temperatura: %f.", tempC);
+    }
 }
