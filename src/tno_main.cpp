@@ -22,8 +22,8 @@ void setup() {
     info_printf("Scanning for DS18B20 sensors...");
     uint8_t         deviceAddress[8]  = {};
     while (g_App.ApiOneWire->search(deviceAddress)) {
-        if_fail_e(g_App.DS18B20Addresses.push_back(*(u3_t*)deviceAddress));
-        info_printf("Sensor %u address: 0x%Xll.", g_App.DS18B20Addresses.size(), g_App.DS18B20Addresses[g_App.DS18B20Addresses.size()-1]);
+        if_fail_e(g_App.DS18B20Addresses.push_back(*(const u3_t*)deviceAddress));
+        info_printf("Sensor %u address: 0x%X%X.", g_App.DS18B20Addresses.size(), *(const uint32_t*)(&deviceAddress[4]), *(const uint32_t*)(&deviceAddress[0]));
     }
     g_App.ApiOneWire->reset_search();
     info_printf("DS18B20 sensors connected: %u.", g_App.DS18B20Addresses.size());
@@ -33,7 +33,8 @@ void loop() {
     DallasTemperature   & ds18b20   = *g_App.ApiDS18B20;
     ds18b20.requestTemperatures();
     for(u2_t i=0; i < g_App.DS18B20Addresses.size(); ++i) {
-        cnst    float   tempC   = ds18b20.getTempC((const uint8_t*)&g_App.DS18B20Addresses[i]);  // 
-        info_printf("DS18B20 measured temperature: %f.", tempC);
+        u0_c                * deviceAddress         = (u0_c*)&g_App.DS18B20Addresses[i];
+        f2_c tempC          = ds18b20.getTempC(deviceAddress);  // 
+        info_printf("DS18B20 with id 0x%X%X measured temperature: %f.", *(const uint32_t*)(&deviceAddress[4]), *(const uint32_t*)(&deviceAddress[0]), tempC);
     }
 }
