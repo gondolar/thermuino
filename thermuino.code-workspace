@@ -11,6 +11,12 @@
 		},
 		{
 			"path": "../pyholder"
+		},
+		{
+			"path": "../Arduino-Temperature-Control-Library"
+		},
+		{
+			"path": "../ESPAsyncWebServer"
 		}
 	],
 	"settings": {
@@ -82,7 +88,9 @@
 			"xtree": "cpp",
 			"xutility": "cpp",
 			"bitset": "cpp",
-			"xmemory": "cpp"
+			"xmemory": "cpp",
+			"queue": "cpp",
+			"stack": "cpp"
 		}
 	}
 }
