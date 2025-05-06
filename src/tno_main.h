@@ -1,7 +1,5 @@
-#include "llc_ptr_obj.h"
-#include "llc_array_pod.h"
-//#include "llc_event.h"
 #include "llc_rxtx.h"
+#include "llc_event.h"
 
 #include <DallasTemperature.h>
 

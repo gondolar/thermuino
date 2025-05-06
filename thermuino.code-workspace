@@ -90,7 +90,10 @@
 			"bitset": "cpp",
 			"xmemory": "cpp",
 			"queue": "cpp",
-			"stack": "cpp"
+			"stack": "cpp",
+			"ios": "cpp",
+			"xlocmon": "cpp",
+			"xtr1common": "cpp"
 		}
 	}
 }
