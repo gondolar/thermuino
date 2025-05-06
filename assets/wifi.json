@@ -1,1 +1,0 @@
-{"sta": {"ssid": "Personal-WiFi-737-2.4Ghz", "password": "f8exry5gxrxhagq", "hostname": "mlcsta", "dns": "208.67.222.222"}, "sap": {"ssid": "Firewall", "password": "!1232MiaU2321!", "hostname": "mlcsap", "ip": "192.168.12.1"}, "disable_sap": false, "disable_sta": true, "disable_dhcp": false}
