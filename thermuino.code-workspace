@@ -17,6 +17,15 @@
 		},
 		{
 			"path": "../ESPAsyncWebServer"
+		},
+		{
+			"path": "../yce_common"
+		},
+		{
+			"path": "../yce.js"
+		},
+		{
+			"path": "../mlc_ets_store"
 		}
 	],
 	"settings": {
