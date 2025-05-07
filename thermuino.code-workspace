@@ -26,6 +26,15 @@
 		},
 		{
 			"path": "../mlc_ets_store"
+		},
+		{
+			"path": "../Adafruit_SSD1306"
+		},
+		{
+			"path": "../Adafruit-GFX-Library"
+		},
+		{
+			"path": "../nlc"
 		}
 	],
 	"settings": {
@@ -102,7 +111,9 @@
 			"stack": "cpp",
 			"ios": "cpp",
 			"xlocmon": "cpp",
-			"xtr1common": "cpp"
+			"xtr1common": "cpp",
+			"xiosbase": "cpp",
+			"xlocbuf": "cpp"
 		}
 	}
 }

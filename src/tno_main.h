@@ -1,6 +1,8 @@
+#include "nlc_wifi.h"
 #include "llc_rxtx.h"
 #include "llc_event.h"
 
+#include <Adafruit_SSD1306.h>
 #include <DallasTemperature.h>
 
 namespace tno
@@ -21,10 +23,43 @@ namespace tno
         , 15
         };
 
+    uint32_t    UTC_TIME_OFFSET = 1746535244;
+
+    struct SScheduledEvent {
+        u2_t    Time        = {};
+        u2_t    RetryCount  = {};
+        u2_t    RetryWait   = {}; // in seconds?
+    };
+
+    struct SScheduledTask {
+        u3_t    TimeStart   = {};
+        u3_t    TimeStop    = {};
+        u2_t    RetryCount  = {};
+        u2_t    RetryWait   = {}; // in seconds?
+    };
+
+    struct SSensorEntry {
+        u3_t    Sensor      = {};
+        u2_t    Time        = {};
+        u2_t    Value       = {};
+    };
+
     struct STempApp {
-        s0_t                                PinDS18B20      = WEMOS_PIN_MAP_DIGITAL[4];      // Change to your chosen pin
-        llc::pobj<OneWire          >        ApiOneWire;
-        llc::pobj<DallasTemperature>        ApiDS18B20;
-        llc::apod<u3_t>                     DS18B20Addresses;
+        u0_t                            I2CSCL              = WEMOS_PIN_MAP_DIGITAL[5];
+        u0_t                            I2CSDA              = WEMOS_PIN_MAP_DIGITAL[6]; 
+        s0_t                            I2CAddressOLED      = 0x3D;     // See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
+        
+        u1_t                            I2CDisplayWidth        = 128;      // OLED display width, in pixels
+        u1_t                            I2CDisplayHeight       = 64 ;      // OLED display height, in pixels
+
+        llc::pobj<Adafruit_SSD1306>     I2CDisplay          = {};
+        
+        s0_t                            PinDS18B20          = WEMOS_PIN_MAP_DIGITAL[4];      // Change to your chosen pin
+        llc::pobj<OneWire          >    ApiOneWire          = {};
+        llc::pobj<DallasTemperature>    ApiDS18B20          = {};
+        llc::apod<u3_t>                 DS18B20Addresses    = {};
+
+        llc::apod<SScheduledEvent>      EventSchedule       = {};
+        llc::apod<SSensorEntry>         SensorLog           = {};
     };
 } // namespace

@@ -1,6 +1,8 @@
 #include "tno_main.h"
 #include "llc_arduino.h"
 
+#include <Wire.h>
+
 #include <LittleFS.h>
 
 #include <user_interface.h>
@@ -9,27 +11,42 @@ LLC_USING_TYPEINT();
 
 sttc    tno::STempApp g_App  = {};
 
-void setup() {
-    Serial.begin(115200);
-    g_App.ApiOneWire.create((u0_t)g_App.PinDS18B20);
-    g_App.ApiDS18B20.create(g_App.ApiOneWire);
-    DallasTemperature   & ds18b20   = *g_App.ApiDS18B20;
-    ds18b20.begin();
-    if_zero_e(LittleFS.begin());
-    uint8 currentFrequency = system_get_cpu_freq();  // returns 80 or 160
-    info_printf("System frequency: %u MHz.", currentFrequency);
+llc::err_t  initDisplay(tno::STempApp & app) {
+    //Wire.begin(app.I2CSDA, app.I2CSCL);
+    //Adafruit_SSD1306 & display = *app.I2CDisplay.create((u0_t)app.I2CDisplayWidth, (u0_t)app.I2CDisplayHeight, &Wire, (s0_t)-1);
+    //if_zero_fe(display.begin(SSD1306_SWITCHCAPVCC, app.I2CAddressOLED));
+    //display.display();  // Show initial display buffer contents on the screen -- the library initializes this with an Adafruit splash screen.
+    return 0;
+}
 
+llc::err_t  initSensors(tno::STempApp & app) {
+    app.ApiOneWire.create((u0_t)app.PinDS18B20);
+    app.ApiDS18B20.create(app.ApiOneWire);
+    //llc::pobj<Adafruit_SSD1306>     ;
+    DallasTemperature   & ds18b20   = *app.ApiDS18B20;
+    ds18b20.begin();
     info_printf("Scanning for DS18B20 sensors...");
     uint8_t         deviceAddress[8]  = {};
-    while (g_App.ApiOneWire->search(deviceAddress)) {
-        if_fail_e(g_App.DS18B20Addresses.push_back(*(const u3_t*)deviceAddress));
-        info_printf("Sensor %u address: 0x%X%X.", g_App.DS18B20Addresses.size(), *(const uint32_t*)(&deviceAddress[4]), *(const uint32_t*)(&deviceAddress[0]));
+    while (app.ApiOneWire->search(deviceAddress)) {
+        if_fail_e(app.DS18B20Addresses.push_back(*(const u3_t*)deviceAddress));
+        info_printf("Sensor %u address: 0x%X%X.", app.DS18B20Addresses.size(), *(const uint32_t*)(&deviceAddress[4]), *(const uint32_t*)(&deviceAddress[0]));
     }
     g_App.ApiOneWire->reset_search();
-    info_printf("DS18B20 sensors connected: %u.", g_App.DS18B20Addresses.size());
+    info_printf("DS18B20 sensors connected: %u.", app.DS18B20Addresses.size());
+    return 0;
+}
+
+void setup() {
+    Serial.begin(115200);
+
+    initDisplay(g_App);
+    initSensors(g_App);
+    if_zero_e(LittleFS.begin());
+    info_printf("setup() end.");
 }
 
 void loop() { 
+
     DallasTemperature   & ds18b20   = *g_App.ApiDS18B20;
     ds18b20.requestTemperatures();
     for(u2_t i=0; i < g_App.DS18B20Addresses.size(); ++i) {
