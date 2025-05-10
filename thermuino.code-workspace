@@ -19,6 +19,9 @@
 			"path": "../pyholder"
 		},
 		{
+			"path": "../yce_common/yce.js"
+		},
+		{
 			"path": "../mlc_ets_store"
 		},
 		{
@@ -35,6 +38,12 @@
 		},
 		{
 			"path": "../Adafruit_BusIO"
+		},
+		{
+			"path": "../AsyncTCP"
+		},
+		{
+			"path": "../ESPAsyncTCP"
 		}
 	],
 	"settings": {

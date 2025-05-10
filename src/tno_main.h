@@ -46,20 +46,20 @@ namespace tno
     struct STempApp {
 #ifdef LLC_ESP8266
         u0_t                            I2CSCL              = WEMOS_PIN_MAP_DIGITAL[5];
-        u0_t                            I2CSDA              = WEMOS_PIN_MAP_DIGITAL[6]; 
+        u0_t                            I2CSDA              = WEMOS_PIN_MAP_DIGITAL[4]; 
 #else // !LLC_ESP8266
         u0_t                            I2CSCL              = 22;
         u0_t                            I2CSDA              = 21; 
 #endif // LLC_ESP8266
-        s0_t                            I2CAddressOLED      = 0x3D;     // See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
-        
+        s0_t                            I2CAddressOLED      = 0x3C;     // See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
+
         u1_t                            I2CDisplayWidth     = 128;      // OLED display width, in pixels
         u1_t                            I2CDisplayHeight    = 64 ;      // OLED display height, in pixels
 
         llc::pobj<Adafruit_SSD1306>     I2CDisplay          = {};
-        
-        s0_t                            PinDS18B20          = WEMOS_PIN_MAP_DIGITAL[4];      // Change to your chosen pin
-        llc::pobj<OneWire          >    ApiOneWire          = {};
+
+        s0_t                            PinDS18B20          = WEMOS_PIN_MAP_DIGITAL[1];      // Change to your chosen pin
+        llc::pobj<OneWire          >    ApiOneWire          = {}; 
         llc::pobj<DallasTemperature>    ApiDS18B20          = {};
         llc::apod<u3_t>                 DS18B20Addresses    = {};
 

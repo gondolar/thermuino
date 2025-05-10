@@ -11,10 +11,10 @@ LLC_USING_TYPEINT();
 sttc    tno::STempApp g_App  = {};
 
 llc::err_t  initDisplay(tno::STempApp & app) {
-    //Wire.begin(app.I2CSDA, app.I2CSCL);
-    //Adafruit_SSD1306 & display = *app.I2CDisplay.create((u0_t)app.I2CDisplayWidth, (u0_t)app.I2CDisplayHeight, &Wire, (s0_t)-1);
-    //if_zero_fe(display.begin(SSD1306_SWITCHCAPVCC, app.I2CAddressOLED));
-    //display.display();  // Show initial display buffer contents on the screen -- the library initializes this with an Adafruit splash screen.
+    Wire.begin(app.I2CSDA, app.I2CSCL);
+    Adafruit_SSD1306 & display = *app.I2CDisplay.create((u0_t)app.I2CDisplayWidth, (u0_t)app.I2CDisplayHeight, &Wire, (s0_t)-1);
+    if_zero_fe(display.begin(SSD1306_SWITCHCAPVCC, app.I2CAddressOLED));
+    display.display();  // Show initial display buffer contents on the screen -- the library initializes this with an Adafruit splash screen.
     return 0;
 }
 
