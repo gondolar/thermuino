@@ -5,7 +5,6 @@
 
 #include <LittleFS.h>
 
-#include <user_interface.h>
 
 LLC_USING_TYPEINT();
 
@@ -39,14 +38,13 @@ llc::err_t  initSensors(tno::STempApp & app) {
 void setup() {
     Serial.begin(115200);
 
-    initDisplay(g_App);
-    initSensors(g_App);
+    if_fail_e(initDisplay(g_App));
+    if_fail_e(initSensors(g_App));
     if_zero_e(LittleFS.begin());
     info_printf("setup() end.");
 }
 
 void loop() { 
-
     DallasTemperature   & ds18b20   = *g_App.ApiDS18B20;
     ds18b20.requestTemperatures();
     for(u2_t i=0; i < g_App.DS18B20Addresses.size(); ++i) {

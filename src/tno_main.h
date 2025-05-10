@@ -1,4 +1,3 @@
-#include "nlc_wifi.h"
 #include "llc_rxtx.h"
 #include "llc_event.h"
 
@@ -45,12 +44,17 @@ namespace tno
     };
 
     struct STempApp {
+#ifdef LLC_ESP8266
         u0_t                            I2CSCL              = WEMOS_PIN_MAP_DIGITAL[5];
         u0_t                            I2CSDA              = WEMOS_PIN_MAP_DIGITAL[6]; 
+#else // !LLC_ESP8266
+        u0_t                            I2CSCL              = 22;
+        u0_t                            I2CSDA              = 21; 
+#endif // LLC_ESP8266
         s0_t                            I2CAddressOLED      = 0x3D;     // See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
         
-        u1_t                            I2CDisplayWidth        = 128;      // OLED display width, in pixels
-        u1_t                            I2CDisplayHeight       = 64 ;      // OLED display height, in pixels
+        u1_t                            I2CDisplayWidth     = 128;      // OLED display width, in pixels
+        u1_t                            I2CDisplayHeight    = 64 ;      // OLED display height, in pixels
 
         llc::pobj<Adafruit_SSD1306>     I2CDisplay          = {};
         

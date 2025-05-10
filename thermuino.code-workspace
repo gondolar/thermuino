@@ -4,6 +4,12 @@
 			"path": "../thermuino"
 		},
 		{
+			"path": "../yce_common"
+		},
+		{
+			"path": "../nlc"
+		},
+		{
 			"path": "../ulc"
 		},
 		{
@@ -13,19 +19,13 @@
 			"path": "../pyholder"
 		},
 		{
+			"path": "../mlc_ets_store"
+		},
+		{
 			"path": "../Arduino-Temperature-Control-Library"
 		},
 		{
 			"path": "../ESPAsyncWebServer"
-		},
-		{
-			"path": "../yce_common"
-		},
-		{
-			"path": "../yce.js"
-		},
-		{
-			"path": "../mlc_ets_store"
 		},
 		{
 			"path": "../Adafruit_SSD1306"
@@ -34,7 +34,7 @@
 			"path": "../Adafruit-GFX-Library"
 		},
 		{
-			"path": "../nlc"
+			"path": "../Adafruit_BusIO"
 		}
 	],
 	"settings": {
