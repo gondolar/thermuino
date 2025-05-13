@@ -44,6 +44,18 @@
 		},
 		{
 			"path": "../ESPAsyncTCP"
+		},
+		{
+			"path": "../Adafruit_ILI9341"
+		},
+		{
+			"path": "../Adafruit_TouchScreen"
+		},
+		{
+			"path": "../Adafruit_TSC2007"
+		},
+		{
+			"path": "../Adafruit_STMPE610"
 		}
 	],
 	"settings": {
