@@ -56,6 +56,9 @@
 		},
 		{
 			"path": "../Adafruit_STMPE610"
+		},
+		{
+			"path": "../Adafruit_SH110X"
 		}
 	],
 	"settings": {
