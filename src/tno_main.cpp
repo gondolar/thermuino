@@ -6,7 +6,11 @@
 #include <Wire.h>
 #include <SPI.h>
 
-#include <SPIFFS.h>
+#ifdef LLC_ESP32
+#   include <SPIFFS.h>
+#else
+#   include <LittleFS.h>
+#endif //LLC_ESP32
 
 
 using tno::WEMOS_PIN_MAP_DIGITAL;
@@ -336,17 +340,7 @@ void setup() {
 	//g_App.Servos.Board1.begin();
 	//g_App.Servos.Board1.setPWMFreq(60);
 
-	bool			spiffs_mounted;
-#ifdef LLC_ESP32
-  es_if(false == (spiffs_mounted = SPIFFS.begin(false, g_App.PartitionBase)));
-#else //!LLC_ESP32
-  if_zero_e(spiffs_mounted = LittleFS.begin());
-#endif // LLC_ESP32
-	//if(false == spiffs_mounted)
-	//	spiffs_mounted = spiffsBegin(false);
-	//if(g_App.BootInfo.ResetCause == llc::ESP_RESET_BROWNOUT)
-	//	esp_wifi_set_mode(WIFI_MODE_NULL);
-	//else
+
 		es_if_failed(llc::setupNetwork(app, app.Filenames.WiFi, app.Filenames.HTTP, app.Folders.Setup));
     if_fail_e(initDisplay(app));
     if_fail_e(initSensors(app));
