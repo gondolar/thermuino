@@ -6,7 +6,7 @@
 #include <Wire.h>
 #include <SPI.h>
 
-#include <LittleFS.h>
+#include <SPIFFS.h>
 
 
 using tno::WEMOS_PIN_MAP_DIGITAL;
@@ -327,7 +327,7 @@ sttc    tno::STempApp g_App  = {};
 
 void setup() {
     tno::STempApp & app = g_App;
-	llc::evalResetCause(app, app.BootInfo.ResetCause, app.BootInfo.AwakeCause, app.BootInfo.WakeupPins);
+	  llc::evalResetCause(app, app.BootInfo.ResetCause, app.BootInfo.AwakeCause, app.BootInfo.WakeupPins);
 
     Wire.begin(app.I2CSDA, app.I2CSCL);
     SPI2.begin(app.HSPISCL, app.HSPIMISO, app.HSPIMOSI);
@@ -337,8 +337,11 @@ void setup() {
 	//g_App.Servos.Board1.setPWMFreq(60);
 
 	bool			spiffs_mounted;
-    if_zero_e(spiffs_mounted = LittleFS.begin());
-	//es_if(false == (spiffs_mounted = SPIFFS.begin(false, g_App.PartitionBase)));
+#ifdef LLC_ESP32
+  es_if(false == (spiffs_mounted = SPIFFS.begin(false, g_App.PartitionBase)));
+#else //!LLC_ESP32
+  if_zero_e(spiffs_mounted = LittleFS.begin());
+#endif // LLC_ESP32
 	//if(false == spiffs_mounted)
 	//	spiffs_mounted = spiffsBegin(false);
 	//if(g_App.BootInfo.ResetCause == llc::ESP_RESET_BROWNOUT)
