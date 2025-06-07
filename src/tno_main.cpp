@@ -11,11 +11,16 @@
 
 using tno::WEMOS_PIN_MAP_DIGITAL;
 
-#define FEEDBACK_LED_IS_ACTIVE_LOW // The LED on my board (D4) is active LOW
-#define IR_RECEIVE_PIN          14 // D5
-#define IR_SEND_PIN             12 // D6 - D4/pin 2 is internal LED
-#define _IR_TIMING_TEST_PIN      2 // D4
-#define APPLICATION_PIN         13 // D7
+//#define FEEDBACK_LED_IS_ACTIVE_LOW // The LED on my board (D4) is active LOW
+//#define IR_RECEIVE_PIN          14 // D5
+//#define IR_SEND_PIN             12 // D6 - D4/pin 2 is internal LED
+//#define _IR_TIMING_TEST_PIN      2 // D4
+//#define APPLICATION_PIN         13 // D7
+
+#define IR_RECEIVE_PIN          15  // D15
+#define IR_SEND_PIN              4  // D4
+#define TONE_PIN                27  // D27 25 & 26 are DAC0 and 1
+#define APPLICATION_PIN         16  // RX2 pin
 
 #include "TinyIRReceiver.hpp" // include the code
 
@@ -178,7 +183,7 @@ void tftPrintTest(Adafruit_ST7735 & tft) {
   tft.println("Hello World!");
   tft.setTextSize(1);
   tft.setTextColor(ST77XX_GREEN);
-  tft.print(p, 6);
+  tft.print(3.14159, 6);
   tft.println(" Want pi?");
   tft.println(" ");
   tft.print(8675309, HEX); // print 8,675,309 out in HEX!
@@ -224,7 +229,8 @@ llc::err_t  testDisplayST7735(Adafruit_ST7735 & tft) {
 
     // large block of text
     tft.fillScreen(ST77XX_BLACK);
-    testdrawtext(tft, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur adipiscing ante sed nibh tincidunt feugiat. Maecenas enim massa, fringilla sed malesuada et, malesuada sit amet turpis. Sed porttitor neque ut ante pretium vitae malesuada nunc bibendum. Nullam aliquet ultrices massa eu hendrerit. Ut sed nisi lorem. In vestibulum purus a tortor imperdiet posuere. ", ST77XX_WHITE);
+    char text[] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur adipiscing ante sed nibh tincidunt feugiat. Maecenas enim massa, fringilla sed malesuada et, malesuada sit amet turpis. Sed porttitor neque ut ante pretium vitae malesuada nunc bibendum. Nullam aliquet ultrices massa eu hendrerit. Ut sed nisi lorem. In vestibulum purus a tortor imperdiet posuere. ";
+    testdrawtext(tft, text, ST77XX_WHITE);
     delay(1000);
 
     // tft print function!

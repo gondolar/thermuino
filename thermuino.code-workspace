@@ -23,6 +23,12 @@
 		},
 		{
 			"path": "../mlc_ets_store"
+		},
+		{
+			"path": "../Arduino-IRremote"
+		},
+		{
+			"path": "../Adafruit-ST7735-Library"
 		}
 	],
 	"settings": {
