@@ -23,42 +23,6 @@
 		},
 		{
 			"path": "../mlc_ets_store"
-		},
-		{
-			"path": "../Arduino-Temperature-Control-Library"
-		},
-		{
-			"path": "../ESPAsyncWebServer"
-		},
-		{
-			"path": "../Adafruit_SSD1306"
-		},
-		{
-			"path": "../Adafruit-GFX-Library"
-		},
-		{
-			"path": "../Adafruit_BusIO"
-		},
-		{
-			"path": "../AsyncTCP"
-		},
-		{
-			"path": "../ESPAsyncTCP"
-		},
-		{
-			"path": "../Adafruit_ILI9341"
-		},
-		{
-			"path": "../Adafruit_TouchScreen"
-		},
-		{
-			"path": "../Adafruit_TSC2007"
-		},
-		{
-			"path": "../Adafruit_STMPE610"
-		},
-		{
-			"path": "../Adafruit_SH110X"
 		}
 	],
 	"settings": {

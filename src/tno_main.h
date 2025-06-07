@@ -1,8 +1,12 @@
+#include "nlc_app.h"
+
 #include "llc_rxtx.h"
 #include "llc_event.h"
-
-#include <Adafruit_SSD1306.h>
-#include <DallasTemperature.h>
+//#include <Adafruit_SSD1306.h>
+//#include <Adafruit_SH110X.h>
+//#include <Adafruit_ST7789.h>
+#include <Adafruit_ST7735.h>
+//#include <DallasTemperature.h>
 
 namespace tno
 {
@@ -38,32 +42,65 @@ namespace tno
     };
 
     struct SSensorEntry {
-        u3_t    Sensor      = {};
         u2_t    Time        = {};
+        u3_t    Event       = {};
+        u3_t    Sensor      = {};
         u2_t    Value       = {};
     };
 
-    struct STempApp {
+    struct STempApp : ::llc::SNLCApp {
 #ifdef LLC_ESP8266
         u0_t                            I2CSCL              = WEMOS_PIN_MAP_DIGITAL[5];
         u0_t                            I2CSDA              = WEMOS_PIN_MAP_DIGITAL[4]; 
 #else // !LLC_ESP8266
         u0_t                            I2CSCL              = 22;
         u0_t                            I2CSDA              = 21; 
+
+        u0_t                            HSPISCL              = 13;
+        u0_t                            HSPIMOSI             = 14; 
+        u0_t                            HSPIMISO             = 12; 
+
+        u0_t                            VSPISCL              = 23;
+        u0_t                            VSPIMOSI             = 18; 
+        u0_t                            VSPIMISO             = 22; 
 #endif // LLC_ESP8266
-        s0_t                            I2CAddressOLED      = 0x3C;     // See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
+        //s0_t                            SSD1306Address      = 0x3C; // See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
+        //u1_t                            SSD1306Width        = 128;      // OLED display width, in pixels
+        //u1_t                            SSD1306Height       = 64 ;      // OLED display height, in pixels
+        //llc::pobj<Adafruit_SSD1306>     SSD1306             = {};
+//
+        //u0_c                            SH1106Address       = 0x3D; 
+        //u1_t                            SH1106Width         = 128; // OLED display width, in pixels
+        //u1_t                            SH1106Height        = 64 ; // OLED display height, in pixels
+        ////#define OLED_RESET -1   //   QT-PY / XIAO
+        //llc::pobj<Adafruit_SH1106G>     SH1106              = {};
+        
+        //#define OLED_RESET -1   //   QT-PY / XIAO
+        //u0_t                            ST7789CS            = 15;
+        //s0_t                            ST7789Reset         = 27;
+        //s0_t                            ST7789DC            = 26;
+        //s0_t                            ST7789Backlight     = 25;
+        //u1_t                            ST7789Width         = 240;
+        //u1_t                            ST7789Height        = 135;
+        //llc::pobj<Adafruit_ST7789>      ST7789              = {};
 
-        u1_t                            I2CDisplayWidth     = 128;      // OLED display width, in pixels
-        u1_t                            I2CDisplayHeight    = 64 ;      // OLED display height, in pixels
+        //#define OLED_RESET -1   //   QT-PY / XIAO
+        u0_t                            ST7735CS            = 5;
+        s0_t                            ST7735Reset         = 27;
+        s0_t                            ST7735DC            = 26;
+        s0_t                            ST7735Backlight     = 25;
+        u1_t                            ST7735Width         = 240;
+        u1_t                            ST7735Height        = 135;
+        llc::pobj<Adafruit_ST7735>      ST7735              = {};
 
-        llc::pobj<Adafruit_SSD1306>     I2CDisplay          = {};
 
-        s0_t                            PinDS18B20          = WEMOS_PIN_MAP_DIGITAL[1];      // Change to your chosen pin
-        llc::pobj<OneWire          >    ApiOneWire          = {}; 
-        llc::pobj<DallasTemperature>    ApiDS18B20          = {};
-        llc::apod<u3_t>                 DS18B20Addresses    = {};
 
-        llc::apod<SScheduledEvent>      EventSchedule       = {};
-        llc::apod<SSensorEntry>         SensorLog           = {};
+        //s0_t                            PinDS18B20          = WEMOS_PIN_MAP_DIGITAL[1];      // Change to your chosen pin
+        //llc::pobj<OneWire          >    ApiOneWire          = {}; 
+        //llc::pobj<DallasTemperature>    ApiDS18B20          = {};
+        //llc::apod<u3_t>                 DS18B20Addresses    = {};
+        llc::apod<SScheduledEvent>      ScheduledEvents     = {};
+        llc::apod<SScheduledTask>       ScheduledTasks      = {};
+        llc::apod<SSensorEntry>         SensorsLog          = {};
     };
 } // namespace
