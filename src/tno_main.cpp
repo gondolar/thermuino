@@ -23,7 +23,7 @@ using tno::WEMOS_PIN_MAP_DIGITAL;
 
 #define IR_RECEIVE_PIN          15  // D15
 #define IR_SEND_PIN              4  // D4
-#define TONE_PIN                27  // D27 25 & 26 are DAC0 and 1
+#define TONE_PIN                30  // D27 25 & 26 are DAC0 and 1
 #define APPLICATION_PIN         16  // RX2 pin
 
 #include "TinyIRReceiver.hpp" // include the code
@@ -34,7 +34,7 @@ LLC_USING_TYPEINT();
 SPIClass SPI2(HSPI);
 SPIClass SPI3(VSPI);
 
-void testlines(Adafruit_ST7735 & tft, uint16_t color) {
+void testlines(Adafruit_ST77xx & tft, uint16_t color) {
   tft.fillScreen(ST77XX_BLACK);
   for (int16_t x=0; x < tft.width(); x+=6) {
     tft.drawLine(0, 0, x, tft.height()-1, color);
@@ -76,14 +76,14 @@ void testlines(Adafruit_ST7735 & tft, uint16_t color) {
   }
 }
 
-void testdrawtext(Adafruit_ST7735 & tft, char *text, uint16_t color) {
+void testdrawtext(Adafruit_ST77xx & tft, char *text, uint16_t color) {
   tft.setCursor(0, 0);
   tft.setTextColor(color);
   tft.setTextWrap(true);
   tft.print(text);
 }
 
-void testfastlines(Adafruit_ST7735 & tft, uint16_t color1, uint16_t color2) {
+void testfastlines(Adafruit_ST77xx & tft, uint16_t color1, uint16_t color2) {
   tft.fillScreen(ST77XX_BLACK);
   for (int16_t y=0; y < tft.height(); y+=5) {
     tft.drawFastHLine(0, y, tft.width(), color1);
@@ -93,14 +93,14 @@ void testfastlines(Adafruit_ST7735 & tft, uint16_t color1, uint16_t color2) {
   }
 }
 
-void testdrawrects(Adafruit_ST7735 & tft, uint16_t color) {
+void testdrawrects(Adafruit_ST77xx & tft, uint16_t color) {
   tft.fillScreen(ST77XX_BLACK);
   for (int16_t x=0; x < tft.width(); x+=6) {
     tft.drawRect(tft.width()/2 -x/2, tft.height()/2 -x/2 , x, x, color);
   }
 }
 
-void testfillrects(Adafruit_ST7735 & tft, uint16_t color1, uint16_t color2) {
+void testfillrects(Adafruit_ST77xx & tft, uint16_t color1, uint16_t color2) {
   tft.fillScreen(ST77XX_BLACK);
   for (int16_t x=tft.width()-1; x > 6; x-=6) {
     tft.fillRect(tft.width()/2 -x/2, tft.height()/2 -x/2 , x, x, color1);
@@ -108,7 +108,7 @@ void testfillrects(Adafruit_ST7735 & tft, uint16_t color1, uint16_t color2) {
   }
 }
 
-void testfillcircles(Adafruit_ST7735 & tft, uint8_t radius, uint16_t color) {
+void testfillcircles(Adafruit_ST77xx & tft, uint8_t radius, uint16_t color) {
   for (int16_t x=radius; x < tft.width(); x+=radius*2) {
     for (int16_t y=radius; y < tft.height(); y+=radius*2) {
       tft.fillCircle(x, y, radius, color);
@@ -116,7 +116,7 @@ void testfillcircles(Adafruit_ST7735 & tft, uint8_t radius, uint16_t color) {
   }
 }
 
-void testdrawcircles(Adafruit_ST7735 & tft, uint8_t radius, uint16_t color) {
+void testdrawcircles(Adafruit_ST77xx & tft, uint8_t radius, uint16_t color) {
   for (int16_t x=0; x < tft.width()+radius; x+=radius*2) {
     for (int16_t y=0; y < tft.height()+radius; y+=radius*2) {
       tft.drawCircle(x, y, radius, color);
@@ -124,7 +124,7 @@ void testdrawcircles(Adafruit_ST7735 & tft, uint8_t radius, uint16_t color) {
   }
 }
 
-void testtriangles(Adafruit_ST7735 & tft) {
+void testtriangles(Adafruit_ST77xx & tft) {
   tft.fillScreen(ST77XX_BLACK);
   uint16_t color = 0xF800;
   int t;
@@ -141,7 +141,7 @@ void testtriangles(Adafruit_ST7735 & tft) {
   }
 }
 
-void testroundrects(Adafruit_ST7735 & tft) {
+void testroundrects(Adafruit_ST77xx & tft) {
   tft.fillScreen(ST77XX_BLACK);
   uint16_t color = 100;
   int i;
@@ -163,7 +163,7 @@ void testroundrects(Adafruit_ST7735 & tft) {
   }
 }
 
-void tftPrintTest(Adafruit_ST7735 & tft) {
+void tftPrintTest(Adafruit_ST77xx & tft) {
   tft.setTextWrap(false);
   tft.fillScreen(ST77XX_BLACK);
   tft.setCursor(0, 30);
@@ -202,33 +202,33 @@ void tftPrintTest(Adafruit_ST7735 & tft) {
   tft.print(" seconds.");
 }
 
-void mediabuttons(Adafruit_ST7735 & tft) {
+void mediabuttons(Adafruit_ST77xx & tft) {
   // play
   tft.fillScreen(ST77XX_BLACK);
-  tft.fillRoundRect(25, 10, 78, 60, 8, ST77XX_WHITE);
-  tft.fillTriangle(42, 20, 42, 60, 90, 40, ST77XX_RED);
+  tft.fillRoundRect(10, 10, 78, 60, 8, ST77XX_WHITE);
+  tft.fillTriangle(22, 20, 42, 60, 90, 40, ST77XX_RED);
   delay(500);
   // pause
-  tft.fillRoundRect(25, 90, 78, 60, 8, ST77XX_WHITE);
-  tft.fillRoundRect(39, 98, 20, 45, 5, ST77XX_GREEN);
-  tft.fillRoundRect(69, 98, 20, 45, 5, ST77XX_GREEN);
+  tft.fillRoundRect(10, 90, 78, 60, 8, ST77XX_WHITE);
+  tft.fillRoundRect(19, 98, 20, 45, 5, ST77XX_GREEN);
+  tft.fillRoundRect(49, 98, 20, 45, 5, ST77XX_GREEN);
   delay(500);
   // play color
-  tft.fillTriangle(42, 20, 42, 60, 90, 40, ST77XX_BLUE);
+  tft.fillTriangle(22, 20, 42, 60, 90, 40, ST77XX_BLUE);
   delay(50);
   // pause color
-  tft.fillRoundRect(39, 98, 20, 45, 5, ST77XX_RED);
-  tft.fillRoundRect(69, 98, 20, 45, 5, ST77XX_RED);
+  tft.fillRoundRect(19, 98, 20, 45, 5, ST77XX_RED);
+  tft.fillRoundRect(49, 98, 20, 45, 5, ST77XX_RED);
   // play color
-  tft.fillTriangle(42, 20, 42, 60, 90, 40, ST77XX_GREEN);
+  tft.fillTriangle(22, 20, 42, 60, 90, 40, ST77XX_GREEN);
 }
 
-llc::err_t  testDisplayST7735(Adafruit_ST7735 & tft) {
+llc::err_t  testDisplayST77XX(Adafruit_ST77xx & tft) {
     uint16_t time = millis();
     tft.fillScreen(ST77XX_BLACK);
     time = millis() - time;
 
-    Serial.println(time, DEC);
+    info_printf("time:%u", time);
     delay(500);
 
     // large block of text
@@ -274,11 +274,19 @@ llc::err_t  testDisplayST7735(Adafruit_ST7735 & tft) {
     delay(500);
     return 0;
 }
-llc::err_t  initDisplayST7735(tno::STempApp & app) {
-    if_null_fe(app.ST7735.create(&SPI2, (s0_t)app.ST7735CS, (s0_t)app.ST7735DC, (s0_t)app.ST7735Reset));
-    app.ST7735->initR(INITR_BLACKTAB);      // Init ST7735S chip, black tab
-    ::testDisplayST7735(*app.ST7735);
-    //display.display();  // Show initial display buffer contents on the screen -- the library initializes this with an Adafruit splash screen.
+//llc::err_t  initDisplayST7735(tno::STempApp & app) {
+//    if_null_fe(app.ST7735.create(&SPI2, (s0_t)app.ST7735CS, (s0_t)app.ST7735DC, (s0_t)app.ST7735Reset));
+//    app.ST7735->initR(INITR_MINI160x80); 
+//    ::testDisplayST77XX(*app.ST7735);
+//    //display.display();  // Show initial display buffer contents on the screen -- the library initializes this with an Adafruit splash screen.
+//    return 0;
+//}
+
+llc::err_t  initDisplayST7789(tno::STempApp & app) {
+    if_null_fe(app.ST7789.create(&SPI2, (s0_t)app.ST77XXCS, (s0_t)app.ST77XXDC, (s0_t)app.ST77XXReset));
+    app.ST7789->init(135, 240);           // Init ST7789 240x135
+    ::testDisplayST77XX(*app.ST7789);
+      //display.display();  // Show initial display buffer contents on the screen -- the library initializes this with an Adafruit splash screen.
     return 0;
 }
 
@@ -290,7 +298,8 @@ llc::err_t  initDisplayST7735(tno::STempApp & app) {
 //}
 
 llc::err_t  initDisplay(tno::STempApp & app) {
-    if_fail_fe(initDisplayST7735(app));
+    //if_fail_fe(initDisplayST7735(app));
+    if_fail_fe(initDisplayST7789(app));
     return 0;
 }
 
@@ -343,7 +352,7 @@ void setup() {
 
 		es_if_failed(llc::setupNetwork(app, app.Filenames.WiFi, app.Filenames.HTTP, app.Folders.Setup));
     if_fail_e(initDisplay(app));
-    if_fail_e(initSensors(app));
+    //if_fail_e(initSensors(app));
     info_printf("setup() end.");
 }
 

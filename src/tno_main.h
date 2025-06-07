@@ -1,11 +1,12 @@
+
 #include "nlc_app.h"
 
 #include "llc_rxtx.h"
 #include "llc_event.h"
 //#include <Adafruit_SSD1306.h>
 //#include <Adafruit_SH110X.h>
-//#include <Adafruit_ST7789.h>
-#include <Adafruit_ST7735.h>
+#include <Adafruit_ST7789.h>
+//#include <Adafruit_ST7735.h>
 //#include <DallasTemperature.h>
 
 namespace tno
@@ -50,8 +51,12 @@ namespace tno
 
     struct STempApp : ::llc::SNLCApp {
 #ifdef LLC_ESP8266
-        u0_t                            I2CSCL              = WEMOS_PIN_MAP_DIGITAL[5];
-        u0_t                            I2CSDA              = WEMOS_PIN_MAP_DIGITAL[4]; 
+        u0_t                            I2CSCL              = WEMOS_PIN_MAP_DIGITAL[1];
+        u0_t                            I2CSDA              = WEMOS_PIN_MAP_DIGITAL[2]; 
+
+        u0_t                            HSPISCL              = WEMOS_PIN_MAP_DIGITAL[5];
+        u0_t                            HSPIMOSI             = WEMOS_PIN_MAP_DIGITAL[7]; 
+        u0_t                            HSPIMISO             = WEMOS_PIN_MAP_DIGITAL[6]; 
 #else // !LLC_ESP8266
         u0_t                            I2CSCL              = 22;
         u0_t                            I2CSDA              = 21; 
@@ -62,7 +67,7 @@ namespace tno
 
         u0_t                            VSPISCL              = 23;
         u0_t                            VSPIMOSI             = 18; 
-        u0_t                            VSPIMISO             = 22; 
+        u0_t                            VSPIMISO             = 19; 
 #endif // LLC_ESP8266
         //s0_t                            SSD1306Address      = 0x3C; // See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
         //u1_t                            SSD1306Width        = 128;      // OLED display width, in pixels
@@ -75,25 +80,21 @@ namespace tno
         ////#define OLED_RESET -1   //   QT-PY / XIAO
         //llc::pobj<Adafruit_SH1106G>     SH1106              = {};
         
-        //#define OLED_RESET -1   //   QT-PY / XIAO
-        //u0_t                            ST7789CS            = 15;
-        //s0_t                            ST7789Reset         = 27;
-        //s0_t                            ST7789DC            = 26;
-        //s0_t                            ST7789Backlight     = 25;
-        //u1_t                            ST7789Width         = 240;
-        //u1_t                            ST7789Height        = 135;
-        //llc::pobj<Adafruit_ST7789>      ST7789              = {};
+        u0_t                                ST77XXCS            = 5;
+        s0_t                                ST77XXReset         = 27;
+        s0_t                                ST77XXDC            = 26;
+        s0_t                                ST77XXBacklight     = 25;
+        u1_t                                ST77XXWidth         = 240;
+        u1_t                                ST77XXHeight        = 135;
+        llc::pobj<Adafruit_ST7789>          ST7789              = {};
 
-        //#define OLED_RESET -1   //   QT-PY / XIAO
-        u0_t                            ST7735CS            = 5;
-        s0_t                            ST7735Reset         = 27;
-        s0_t                            ST7735DC            = 26;
-        s0_t                            ST7735Backlight     = 25;
-        u1_t                            ST7735Width         = 240;
-        u1_t                            ST7735Height        = 135;
-        llc::pobj<Adafruit_ST7735>      ST7735              = {};
-
-
+        //u0_t                              ST7735CS            = 5;
+        //s0_t                              ST7735Reset         = 27;
+        //s0_t                              ST7735DC            = 26;
+        //s0_t                              ST7735Backlight     = 25;
+        //u1_t                              ST7735Width         = 160;
+        //u1_t                              ST7735Height        = 80;
+        //llc::pobj<Adafruit_ST7735>        ST7735              = {};
 
         //s0_t                            PinDS18B20          = WEMOS_PIN_MAP_DIGITAL[1];      // Change to your chosen pin
         //llc::pobj<OneWire          >    ApiOneWire          = {}; 
