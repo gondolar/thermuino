@@ -128,6 +128,7 @@ llc::err_t tickIRReceiver   () {
 //    if_true_i(TinyIRReceiverData.Flags == IRDATA_FLAGS_IS_REPEAT);
 //    if_true_fe(TinyIRReceiverData.Flags == IRDATA_FLAGS_PARITY_FAILED); //  Parity failed. Try defining USE_EXTENDED_NEC_PROTOCOL or USE_ONKYO_PROTOCOL.
 //    return TinyIRReceiverData.Address | (TinyIRReceiverData.Command << (sizeof(TinyIRReceiverData.Address)*8));
+    return 0;
 }
 
 void loop() { 
