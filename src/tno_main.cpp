@@ -46,6 +46,7 @@ SPIClass SPI2(HSPI);
 llc::err_t  initDisplayST7789(tno::STempApp & app) {
     if_null_fe(app.ST7789.create(&SPI2, (s0_t)app.ST77XXCS, (s0_t)app.ST77XXDC, (s0_t)app.ST77XXReset));
     app.ST7789->init(135, 240);           // Init ST7789 240x135
+    app.ST7789->setRotation(3);
     ::testDisplayST77XX(*app.ST7789);
       //display.display();  // Show initial display buffer contents on the screen -- the library initializes this with an Adafruit splash screen.
     return 0;
@@ -106,12 +107,12 @@ void setup() {
     Wire.begin(app.I2CSDA, app.I2CSCL);
     SPI2.begin(app.HSPISCL, app.HSPIMISO, app.HSPIMOSI);
    //SPI3.begin(app.VSPISCL, app.VSPIMISO, app.VSPIMOSI); 
-
+    app.ApiOneWire.create((uint8_t)15);
 	//g_App.Servos.Board1.begin();
 	//g_App.Servos.Board1.setPWMFreq(60);
 
 
-		es_if_failed(llc::setupNetwork(app, app.Filenames.WiFi, app.Filenames.HTTP, app.Folders.Setup));
+	es_if_failed(llc::setupNetwork(app, app.Filenames.WiFi, app.Filenames.HTTP, app.Folders.Setup));
     if_fail_e(initDisplay(app));
     if_fail_e(initSensors(app));
     info_printf("setup() end.");
@@ -137,6 +138,7 @@ llc::error_t drawTemperatures(tno::STempApp & app) {
     tft.fillScreen(ST77XX_BLACK);
     tft.setCursor(0, 0);
     tft.setTextColor(ST77XX_WHITE);
+    tft.setTextSize(2);
     tft.setTextWrap(true);
     for(u2_t i=0; i < app.DS18B20Addresses.size(); ++i) {
         char sensorText[64] = {};
