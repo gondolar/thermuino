@@ -6,16 +6,16 @@
 namespace tno
 {
     using ::llc::vcst_c;
-    stxp ::llc::u3_c    TNO_VERSION_TIME       = 1749530006;
+    stxp ::llc::u3_c    TNO_VERSION_TIME       = 1749532371;
     stxp ::llc::u1_c    TNO_VERSION_YEAR       = 2025;
     stxp ::llc::u0_c    TNO_VERSION_MONTH      = 6;
     stxp ::llc::u0_c    TNO_VERSION_MDAY       = 10;
-    stxp ::llc::u1_c    TNO_VERSION_HOUR       = 4;
-    stxp ::llc::u0_c    TNO_VERSION_MINUTE     = 33;
-    stxp ::llc::vcst_c  TNO_VERSION_STRING     = LLC_CXS("202506100433");
+    stxp ::llc::u1_c    TNO_VERSION_HOUR       = 5;
+    stxp ::llc::u0_c    TNO_VERSION_MINUTE     = 12;
+    stxp ::llc::vcst_c  TNO_VERSION_STRING     = LLC_CXS("202506100512");
     stxp ::llc::vcst_c  TNO_VERSION_BRANCH     = LLC_CXS("master");
     stxp ::llc::vcst_c  TNO_VERSION_COMMIT     = LLC_CXS("0d12486fc913b97594d60fd2fa12238fc2e13d14");
-    stxp ::llc::vcst_c  TNO_VERSION_FILENAME   = LLC_CXS("tno.202506100433.bin");
+    stxp ::llc::vcst_c  TNO_VERSION_FILENAME   = LLC_CXS("tno.202506100512.bin");
     stxp ::llc::vcst_c  TNO_VERSION_FILESYSTEM = LLC_CXS("./assets");
 }
 
