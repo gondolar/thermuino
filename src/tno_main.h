@@ -7,7 +7,7 @@
 //#include <Adafruit_SH110X.h>
 #include <Adafruit_ST7789.h>
 //#include <Adafruit_ST7735.h>
-//#include <DallasTemperature.h>
+#include <DallasTemperature.h>
 
 namespace tno
 {
@@ -77,16 +77,15 @@ namespace tno
         //u0_c                            SH1106Address       = 0x3D; 
         //u1_t                            SH1106Width         = 128; // OLED display width, in pixels
         //u1_t                            SH1106Height        = 64 ; // OLED display height, in pixels
-        ////#define OLED_RESET -1   //   QT-PY / XIAO
         //llc::pobj<Adafruit_SH1106G>     SH1106              = {};
-        
-        u0_t                                ST77XXCS            = 5;
-        s0_t                                ST77XXReset         = 27;
-        s0_t                                ST77XXDC            = 26;
-        s0_t                                ST77XXBacklight     = 25;
-        u1_t                                ST77XXWidth         = 240;
-        u1_t                                ST77XXHeight        = 135;
-        llc::pobj<Adafruit_ST7789>          ST7789              = {};
+
+        u0_t                            ST77XXCS            = 5;
+        s0_t                            ST77XXReset         = 27;
+        s0_t                            ST77XXDC            = 26;
+        s0_t                            ST77XXBacklight     = 25;
+        u1_t                            ST77XXWidth         = 240;
+        u1_t                            ST77XXHeight        = 135;
+        llc::pobj<Adafruit_ST7789>      ST7789              = {};
 
         //u0_t                              ST7735CS            = 5;
         //s0_t                              ST7735Reset         = 27;
@@ -96,10 +95,10 @@ namespace tno
         //u1_t                              ST7735Height        = 80;
         //llc::pobj<Adafruit_ST7735>        ST7735              = {};
 
-        //s0_t                            PinDS18B20          = WEMOS_PIN_MAP_DIGITAL[1];      // Change to your chosen pin
-        //llc::pobj<OneWire          >    ApiOneWire          = {}; 
-        //llc::pobj<DallasTemperature>    ApiDS18B20          = {};
-        //llc::apod<u3_t>                 DS18B20Addresses    = {};
+        s0_t                            PinDS18B20          = WEMOS_PIN_MAP_DIGITAL[1];      // Change to your chosen pin
+        llc::pobj<OneWire          >    ApiOneWire          = {}; 
+        llc::pobj<DallasTemperature>    ApiDS18B20          = {};
+        llc::apod<u3_t>                 DS18B20Addresses    = {};
         llc::apod<SScheduledEvent>      ScheduledEvents     = {};
         llc::apod<SScheduledTask>       ScheduledTasks      = {};
         llc::apod<SSensorEntry>         SensorsLog          = {};
