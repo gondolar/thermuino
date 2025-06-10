@@ -138,7 +138,7 @@ void tftPrintTest(Adafruit_ST77xx & tft) {
   tft.setTextColor(ST77XX_BLUE);
   tft.setTextSize(4);
   tft.print(1234.567);
-  delay(150 );
+  delay(0);
   tft.setCursor(0, 0);
   tft.fillScreen(ST77XX_BLACK);
   tft.setTextColor(ST77XX_WHITE);
@@ -166,15 +166,15 @@ void mediabuttons(Adafruit_ST77xx & tft) {
   tft.fillScreen(ST77XX_BLACK);
   tft.fillRoundRect(10, 10, 78, 60, 8, ST77XX_WHITE);
   tft.fillTriangle(22, 20, 42, 60, 90, 40, ST77XX_RED);
-  delay(10);
+  delay(0);
   // pause
   tft.fillRoundRect(10, 90, 78, 60, 8, ST77XX_WHITE);
   tft.fillRoundRect(19, 98, 20, 45, 5, ST77XX_GREEN);
   tft.fillRoundRect(49, 98, 20, 45, 5, ST77XX_GREEN);
-  delay(10);
+  delay(0);
   // play color
   tft.fillTriangle(22, 20, 42, 60, 90, 40, ST77XX_BLUE);
-  delay(10);
+  delay(0);
   // pause color
   tft.fillRoundRect(19, 98, 20, 45, 5, ST77XX_RED);
   tft.fillRoundRect(49, 98, 20, 45, 5, ST77XX_RED);
@@ -188,48 +188,48 @@ llc::err_t  testDisplayST77XX(Adafruit_ST77xx & tft) {
     time = millis() - time;
 
     info_printf("time:%u", time);
-    delay(10);
+    delay(0);
 
     // large block of text
     tft.fillScreen(ST77XX_BLACK);
     char text[] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur adipiscing ante sed nibh tincidunt feugiat. Maecenas enim massa, fringilla sed malesuada et, malesuada sit amet turpis. Sed porttitor neque ut ante pretium vitae malesuada nunc bibendum. Nullam aliquet ultrices massa eu hendrerit. Ut sed nisi lorem. In vestibulum purus a tortor imperdiet posuere. ";
     testdrawtext(tft, text, ST77XX_WHITE);
-    delay(100);
+    delay(0);
 
     // tft print function!
     tftPrintTest(tft);
-    delay(100);
+    delay(0);
 
     // a single pixel
     tft.drawPixel(tft.width()/2, tft.height()/2, ST77XX_GREEN);
-    delay(10);
+    delay(0);
 
     // line draw test
     testlines(tft, ST77XX_YELLOW);
-    delay(10);
+    delay(0);
 
     // optimized lines
     testfastlines(tft, ST77XX_RED, ST77XX_BLUE);
-    delay(10);
+    delay(0);
 
     testdrawrects(tft, ST77XX_GREEN);
-    delay(10);
+    delay(0);
 
     testfillrects(tft, ST77XX_YELLOW, ST77XX_MAGENTA);
-    delay(10);
+    delay(0);
 
     tft.fillScreen(ST77XX_BLACK);
     testfillcircles(tft, 10, ST77XX_BLUE);
     testdrawcircles(tft, 10, ST77XX_WHITE);
-    delay(10);
+    delay(0);
 
     testroundrects(tft);
-    delay(10);
+    delay(0);
 
     testtriangles(tft);
-    delay(10);
+    delay(0);
 
-    mediabuttons(tft);
-    delay(10);
+    //mediabuttons(tft);
+    //delay(0);
     return 0;
 }

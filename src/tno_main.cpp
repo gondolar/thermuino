@@ -137,17 +137,29 @@ llc::error_t drawTemperatures(tno::STempApp & app) {
     Adafruit_ST77xx & tft = *app.ST7789;
     tft.fillScreen(ST77XX_BLACK);
     tft.setCursor(0, 0);
-    tft.setTextColor(ST77XX_WHITE);
     tft.setTextSize(2);
     tft.setTextWrap(true);
     for(u2_t i=0; i < app.DS18B20Addresses.size(); ++i) {
+        f2_c celsius = app.DS18B20Values[i];
+        u3_c address = app.DS18B20Addresses[i];
+        if(celsius > 15) 
+            tft.setTextColor(ST77XX_RED);
+        else if(celsius > 10) 
+            tft.setTextColor(ST77XX_ORANGE);
+        else if(celsius > 4) 
+            tft.setTextColor(ST77XX_YELLOW);
+        else if(celsius > 0) 
+            tft.setTextColor(ST77XX_BLUE);
+        else if(celsius > -4) 
+            tft.setTextColor(ST77XX_CYAN);
+         else 
+            tft.setTextColor(ST77XX_WHITE);
         char sensorText[64] = {};
-        llc::sprintf_s(sensorText, "%llu: %.2f C", app.DS18B20Addresses[i], app.DS18B20Values[i]);
+        llc::sprintf_s(sensorText, "%llu: %.2f C", address, celsius);
         tft.println(sensorText);
     }
     return 0;
 }
-
 
 void loop() { 
     tno::STempApp       & app       = g_App;
