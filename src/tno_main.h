@@ -27,7 +27,7 @@ namespace tno
         , 15
         };
 
-    uint32_t    UTC_TIME_OFFSET = 1746535244;
+    stxp    u2_c        UTC_TIME_OFFSET         = 1746535244;
 
     struct SScheduledEvent {
         u2_t    Time        = {};
