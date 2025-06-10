@@ -95,10 +95,17 @@ namespace tno
         //u1_t                              ST7735Height        = 80;
         //llc::pobj<Adafruit_ST7735>        ST7735              = {};
 
+#ifdef LLC_ESP8266
         s0_t                            PinDS18B20          = WEMOS_PIN_MAP_DIGITAL[1];      // Change to your chosen pin
+#else
+        s0_t                            PinDS18B20          = 15;      // Change to your chosen pin
+#endif
+    
+
         llc::pobj<OneWire          >    ApiOneWire          = {}; 
         llc::pobj<DallasTemperature>    ApiDS18B20          = {};
         llc::apod<u3_t>                 DS18B20Addresses    = {};
+        llc::apod<f2_t>                 DS18B20Values       = {};
         llc::apod<SScheduledEvent>      ScheduledEvents     = {};
         llc::apod<SScheduledTask>       ScheduledTasks      = {};
         llc::apod<SSensorEntry>         SensorsLog          = {};

@@ -131,13 +131,32 @@ llc::err_t tickIRReceiver   () {
     return 0;
 }
 
+
+llc::error_t drawTemperatures(tno::STempApp & app) {
+    Adafruit_ST77xx & tft = *app.ST7789;
+    tft.fillScreen(ST77XX_BLACK);
+    tft.setCursor(0, 0);
+    tft.setTextColor(ST77XX_WHITE);
+    tft.setTextWrap(true);
+    for(u2_t i=0; i < app.DS18B20Addresses.size(); ++i) {
+        char sensorText[64] = {};
+        llc::sprintf_s(sensorText, "%llu: %.2f C", app.DS18B20Addresses[i], app.DS18B20Values[i]);
+        tft.println(sensorText);
+    }
+    return 0;
+}
+
+
 void loop() { 
-    DallasTemperature   & ds18b20   = *g_App.ApiDS18B20;
+    tno::STempApp       & app       = g_App;
+    DallasTemperature   & ds18b20   = *app.ApiDS18B20;
     ds18b20.requestTemperatures();
-    for(u2_t i=0; i < g_App.DS18B20Addresses.size(); ++i) {
-        u0_c                * deviceAddress         = (u0_c*)&g_App.DS18B20Addresses[i];
-        f2_c tempC          = ds18b20.getTempC(deviceAddress);  // 
+    if_fail_re(app.DS18B20Values.resize(app.DS18B20Addresses.size(), 0.0f));
+    for(u2_t i=0; i < app.DS18B20Addresses.size(); ++i) {
+        u0_c * deviceAddress    = (u0_c*)&app.DS18B20Addresses[i];
+        f2_c tempC              = app.DS18B20Values[i]  = ds18b20.getTempC(deviceAddress);  // 
         info_printf("DS18B20 with id 0x%X%X measured temperature: %f.", *(const uint32_t*)(&deviceAddress[4]), *(const uint32_t*)(&deviceAddress[0]), tempC);
     }
+    drawTemperatures(app);
     tickIRReceiver();
 }

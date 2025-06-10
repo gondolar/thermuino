@@ -51,19 +51,14 @@ void testdrawtext(Adafruit_ST77xx & tft, char *text, uint16_t color) {
 
 void testfastlines(Adafruit_ST77xx & tft, uint16_t color1, uint16_t color2) {
   tft.fillScreen(ST77XX_BLACK);
-  for (int16_t y=0; y < tft.height(); y+=5) {
-    tft.drawFastHLine(0, y, tft.width(), color1);
-  }
-  for (int16_t x=0; x < tft.width(); x+=5) {
-    tft.drawFastVLine(x, 0, tft.height(), color2);
-  }
+  for (int16_t y=0; y < tft.height(); y+=5) tft.drawFastHLine(0, y, tft.width(), color1);
+  for (int16_t x=0; x < tft.width(); x+=5)  tft.drawFastVLine(x, 0, tft.height(), color2);
 }
 
 void testdrawrects(Adafruit_ST77xx & tft, uint16_t color) {
   tft.fillScreen(ST77XX_BLACK);
-  for (int16_t x=0; x < tft.width(); x+=6) {
+  for (int16_t x=0; x < tft.width(); x+=6) 
     tft.drawRect(tft.width()/2 -x/2, tft.height()/2 -x/2 , x, x, color);
-  }
 }
 
 void testfillrects(Adafruit_ST77xx & tft, uint16_t color1, uint16_t color2) {
@@ -76,17 +71,15 @@ void testfillrects(Adafruit_ST77xx & tft, uint16_t color1, uint16_t color2) {
 
 void testfillcircles(Adafruit_ST77xx & tft, uint8_t radius, uint16_t color) {
   for (int16_t x=radius; x < tft.width(); x+=radius*2) {
-    for (int16_t y=radius; y < tft.height(); y+=radius*2) {
-      tft.fillCircle(x, y, radius, color);
-    }
+    for (int16_t y=radius; y < tft.height(); y+=radius*2) 
+      tft.fillCircle(x, y, radius, color);    
   }
 }
 
 void testdrawcircles(Adafruit_ST77xx & tft, uint8_t radius, uint16_t color) {
   for (int16_t x=0; x < tft.width()+radius; x+=radius*2) {
-    for (int16_t y=0; y < tft.height()+radius; y+=radius*2) {
+    for (int16_t y=0; y < tft.height()+radius; y+=radius*2)
       tft.drawCircle(x, y, radius, color);
-    }
   }
 }
 
