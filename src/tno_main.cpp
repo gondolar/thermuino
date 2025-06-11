@@ -1,6 +1,8 @@
+
 #include "tno_main.h"
 #include "llc_arduino.h"
 #ifdef LLC_ESP32
+#   include <esp_wifi.h>
 #   include <esp_wifi.h>
 #endif
 #include <Wire.h>
@@ -106,7 +108,16 @@ void setup() {
 
     Wire.begin(app.I2CSDA, app.I2CSCL);
     SPI2.begin(app.HSPISCL, app.HSPIMISO, app.HSPIMOSI);
+#ifdef RADIO_REMOTE_CONTROL
+    pinMode(app.A, INPUT);
+    pinMode(app.B, INPUT);
+    pinMode(app.C, INPUT);
+    pinMode(app.D, INPUT);
+    pinMode(16, OUTPUT);
+    pinMode(17, OUTPUT);
+#else
    //SPI3.begin(app.VSPISCL, app.VSPIMISO, app.VSPIMOSI); 
+#endif
     app.ApiOneWire.create((uint8_t)15);
 	//g_App.Servos.Board1.begin();
 	//g_App.Servos.Board1.setPWMFreq(60);
@@ -173,4 +184,10 @@ void loop() {
     }
     drawTemperatures(app);
     tickIRReceiver();
+#ifdef RADIO_REMOTE_CONTROL
+    if(digitalRead(app.A)) { digitalWrite(16, !digitalRead(16)); info_printf("%u", digitalRead(16)); }
+    if(digitalRead(app.B)) { digitalWrite(17, !digitalRead(17)); info_printf("%u", digitalRead(17)); }
+    if(digitalRead(app.C)) { digitalWrite(16, 0); info_printf("%u", digitalRead(16)); }
+    if(digitalRead(app.D)) { digitalWrite(17, 0); info_printf("%u", digitalRead(17)); }
+#endif
 }

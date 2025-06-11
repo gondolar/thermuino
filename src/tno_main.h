@@ -48,7 +48,7 @@ namespace tno
         u3_t    Sensor      = {};
         u2_t    Value       = {};
     };
-
+#define RADIO_REMOTE_CONTROL
     struct STempApp : ::llc::SNLCApp {
 #ifdef LLC_ESP8266
         u0_t                            I2CSCL              = WEMOS_PIN_MAP_DIGITAL[1];
@@ -64,10 +64,17 @@ namespace tno
         u0_t                            HSPISCL              = 13;
         u0_t                            HSPIMOSI             = 14; 
         u0_t                            HSPIMISO             = 12; 
-
+#   ifdef RADIO_REMOTE_CONTROL
+        u0_t                            A                   = 18;
+        u0_t                            B                   = 19; 
+        u0_t                            C                   = 22; 
+        u0_t                            D                   = 23; 
+        u0_t                            T                   = 12; 
+#   else
         u0_t                            VSPISCL              = 23;
         u0_t                            VSPIMOSI             = 18; 
         u0_t                            VSPIMISO             = 19; 
+#   endif // RADIO_REMOTE_CONTROL
 #endif // LLC_ESP8266
         //s0_t                            SSD1306Address      = 0x3C; // See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
         //u1_t                            SSD1306Width        = 128;      // OLED display width, in pixels
