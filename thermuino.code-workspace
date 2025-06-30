@@ -107,7 +107,8 @@
 			"xlocmon": "cpp",
 			"xtr1common": "cpp",
 			"xiosbase": "cpp",
-			"xlocbuf": "cpp"
+			"xlocbuf": "cpp",
+			"charconv": "cpp"
 		}
 	}
 }
