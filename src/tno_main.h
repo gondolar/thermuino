@@ -5,7 +5,7 @@
 #include "llc_event.h"
 //#include <Adafruit_SSD1306.h>
 //#include <Adafruit_SH110X.h>
-#include <Adafruit_ST7789.h>
+#include <Adafruit_ST77xx.h>
 //#include <Adafruit_ST7735.h>
 #include <DallasTemperature.h>
 
@@ -48,7 +48,7 @@ namespace tno
         u3_t    Sensor      = {};
         u2_t    Value       = {};
     };
-#define RADIO_REMOTE_CONTROL
+//#define RADIO_REMOTE_CONTROL
     struct STempApp : ::llc::SNLCApp {
 #ifdef LLC_ESP8266
         u0_t                            I2CSCL              = WEMOS_PIN_MAP_DIGITAL[1];

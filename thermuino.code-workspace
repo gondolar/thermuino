@@ -108,7 +108,19 @@
 			"xtr1common": "cpp",
 			"xiosbase": "cpp",
 			"xlocbuf": "cpp",
-			"charconv": "cpp"
+			"charconv": "cpp",
+			"mutex": "cpp",
+			"condition_variable": "cpp",
+			"format": "cpp",
+			"iomanip": "cpp",
+			"locale": "cpp",
+			"semaphore": "cpp",
+			"xfacet": "cpp",
+			"xlocale": "cpp",
+			"xlocinfo": "cpp",
+			"xlocmes": "cpp",
+			"xlocnum": "cpp",
+			"xloctime": "cpp"
 		}
 	}
 }

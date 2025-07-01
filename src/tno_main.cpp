@@ -34,8 +34,10 @@ using tno::WEMOS_PIN_MAP_DIGITAL;
 
 LLC_USING_TYPEINT();
 
+#ifdef LLC_ESP32
 SPIClass SPI2(HSPI);
 //SPIClass SPI3(VSPI);
+#endif // LLC_ESP32
 
 //llc::err_t  initDisplayST7735(tno::STempApp & app) {
 //    if_null_fe(app.ST7735.create(&SPI2, (s0_t)app.ST7735CS, (s0_t)app.ST7735DC, (s0_t)app.ST7735Reset));
@@ -46,7 +48,9 @@ SPIClass SPI2(HSPI);
 //}
 
 llc::err_t  initDisplayST7789(tno::STempApp & app) {
+#ifdef LLC_ESP32
     if_null_fe(app.ST7789.create(&SPI2, (s0_t)app.ST77XXCS, (s0_t)app.ST77XXDC, (s0_t)app.ST77XXReset));
+#endif // LLC_ESP32
     app.ST7789->init(135, 240);           // Init ST7789 240x135
     app.ST7789->setRotation(3);
     ::testDisplayST77XX(*app.ST7789);
@@ -107,7 +111,9 @@ void setup() {
 	  llc::evalResetCause(app, app.BootInfo.ResetCause, app.BootInfo.AwakeCause, app.BootInfo.WakeupPins);
 
     Wire.begin(app.I2CSDA, app.I2CSCL);
+#ifdef LLC_ESP32
     SPI2.begin(app.HSPISCL, app.HSPIMISO, app.HSPIMOSI);
+#endif // LLC_ESP32
 #ifdef RADIO_REMOTE_CONTROL
     pinMode(app.A, INPUT);
     pinMode(app.B, INPUT);
