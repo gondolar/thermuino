@@ -1,8 +1,9 @@
 
 #include "tno_main.h"
+#include "display_test.h"
+
 #include "llc_arduino.h"
 #ifdef LLC_ESP32
-#   include <esp_wifi.h>
 #   include <esp_wifi.h>
 #endif
 #include <Wire.h>
@@ -13,8 +14,6 @@
 #else
 #   include <LittleFS.h>
 #endif //LLC_ESP32
-
-#include "display_test.h"
 
 using tno::WEMOS_PIN_MAP_DIGITAL;
 
@@ -39,6 +38,7 @@ SPIClass SPI2(HSPI);
 //SPIClass SPI3(VSPI);
 #endif // LLC_ESP32
 
+#ifdef TNO_USE_ST77XX
 //llc::err_t  initDisplayST7735(tno::STempApp & app) {
 //    if_null_fe(app.ST7735.create(&SPI2, (s0_t)app.ST7735CS, (s0_t)app.ST7735DC, (s0_t)app.ST7735Reset));
 //    app.ST7735->initR(INITR_MINI160x80); 
@@ -46,7 +46,6 @@ SPIClass SPI2(HSPI);
 //    //display.display();  // Show initial display buffer contents on the screen -- the library initializes this with an Adafruit splash screen.
 //    return 0;
 //}
-
 llc::err_t  initDisplayST7789(tno::STempApp & app) {
 #ifdef LLC_ESP32
     if_null_fe(app.ST7789.create(&SPI2, (s0_t)app.ST77XXCS, (s0_t)app.ST77XXDC, (s0_t)app.ST77XXReset));
@@ -57,18 +56,25 @@ llc::err_t  initDisplayST7789(tno::STempApp & app) {
       //display.display();  // Show initial display buffer contents on the screen -- the library initializes this with an Adafruit splash screen.
     return 0;
 }
+#endif // TNO_USE_ST77XX
 
-//llc::err_t  initDisplaySSD1306(tno::STempApp & app) {
-//    Adafruit_SSD1306 & display = *app.SSD1306.create((u0_t)app.SSD1306Width, (u0_t)app.SSD1306Height, &Wire, (s0_t)-1);
-//    if_zero_fe(display.begin(SSD1306_SWITCHCAPVCC, app.SSD1306Address));
-//    display.display();  // Show initial display buffer contents on the screen -- the library initializes this with an Adafruit splash screen.
-//    return 0;
-//}
+#ifdef TNO_USE_SSD1306
+llc::err_t  initDisplaySSD1306(tno::STempApp & app) {
+    Adafruit_SSD1306 & display = *app.SSD1306.create((u0_t)app.SSD1306Width, (u0_t)app.SSD1306Height, &Wire, (s0_t)-1);
+    if_zero_fe(display.begin(SSD1306_SWITCHCAPVCC, app.SSD1306Address));
+    display.display();  // Show initial display buffer contents on the screen -- the library initializes this with an Adafruit splash screen.
+    return 0;
+}
+#endif // TNO_USE_SSD1306
 
 llc::err_t  initDisplay(tno::STempApp & app) {
+#ifdef TNO_USE_ST77XX
     //if_fail_fe(initDisplayST7735(app));
     if_fail_fe(initDisplayST7789(app));
-    //llc::pobj<Adafruit_SSD1306>     ;
+#endif // TNO_USE_ST77XX
+#ifdef TNO_USE_SSD1306
+    if_fail_fe(initDisplaySSD1306(app));
+#endif // TNO_USE_SSD1306
     return 0;
 }
 
@@ -108,7 +114,7 @@ sttc    tno::STempApp g_App  = {};
 
 void setup() {
     tno::STempApp & app = g_App;
-	  llc::evalResetCause(app, app.BootInfo.ResetCause, app.BootInfo.AwakeCause, app.BootInfo.WakeupPins);
+	llc::evalResetCause(app, app.BootInfo.ResetCause, app.BootInfo.AwakeCause, app.BootInfo.WakeupPins);
 
     Wire.begin(app.I2CSDA, app.I2CSCL);
 #ifdef LLC_ESP32
@@ -149,32 +155,36 @@ llc::err_t tickIRReceiver   () {
     return 0;
 }
 
-
 llc::error_t drawTemperatures(tno::STempApp & app) {
-    Adafruit_ST77xx & tft = *app.ST7789;
-    tft.fillScreen(ST77XX_BLACK);
-    tft.setCursor(0, 0);
-    tft.setTextSize(2);
-    tft.setTextWrap(true);
+#ifndef TNO_HEADLESS
+    using namespace tno;
+
+    Adafruit_GFX & tft = 
+#   ifdef TNO_USE_ST77XX
+        *app.ST7789;
+#   else // !TNO_USE_ST77XX
+        *app.SSD1306;
+#   endif // TNO_USE_ST77XX
     for(u2_t i=0; i < app.DS18B20Addresses.size(); ++i) {
         f2_c celsius = app.DS18B20Values[i];
         u3_c address = app.DS18B20Addresses[i];
         if(celsius > 15) 
-            tft.setTextColor(ST77XX_RED);
+            tft.setTextColor(U1_RED);
         else if(celsius > 10) 
-            tft.setTextColor(ST77XX_ORANGE);
+            tft.setTextColor(U1_ORANGE);
         else if(celsius > 4) 
-            tft.setTextColor(ST77XX_YELLOW);
+            tft.setTextColor(U1_YELLOW);
         else if(celsius > 0) 
-            tft.setTextColor(ST77XX_BLUE);
+            tft.setTextColor(U1_BLUE);
         else if(celsius > -4) 
-            tft.setTextColor(ST77XX_CYAN);
+            tft.setTextColor(U1_CYAN);
          else 
-            tft.setTextColor(ST77XX_WHITE);
+            tft.setTextColor(U1_WHITE);
         char sensorText[64] = {};
         llc::sprintf_s(sensorText, "%llu: %.2f C", address, celsius);
         tft.println(sensorText);
     }
+#endif // TNO_HEADLESS
     return 0;
 }
 
@@ -188,6 +198,16 @@ void loop() {
         f2_c tempC              = app.DS18B20Values[i]  = ds18b20.getTempC(deviceAddress);  // 
         info_printf("DS18B20 with id 0x%X%X measured temperature: %f.", *(const uint32_t*)(&deviceAddress[4]), *(const uint32_t*)(&deviceAddress[0]), tempC);
     }
+    Adafruit_GFX & tft = 
+#   ifdef TNO_USE_ST77XX
+        *app.ST7789;
+#   else // !TNO_USE_ST77XX
+        *app.SSD1306;
+#   endif // TNO_USE_ST77XX
+    tft.setCursor(0, 0);
+    tft.setTextSize(2);
+    tft.setTextWrap(true);
+    tft.fillScreen(0);
     drawTemperatures(app);
     tickIRReceiver();
 #ifdef RADIO_REMOTE_CONTROL

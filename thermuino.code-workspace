@@ -29,6 +29,9 @@
 		},
 		{
 			"path": "../Adafruit-ST7735-Library"
+		},
+		{
+			"path": "../Adafruit_SSD1306"
 		}
 	],
 	"settings": {
